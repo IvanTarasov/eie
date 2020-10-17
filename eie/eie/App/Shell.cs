@@ -1,20 +1,25 @@
 ﻿using ConsoleUI.Commands;
+using eie.App;
+using eie.Commands.Custom;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ConsoleUI
 {
     static class Shell
     {
         public static List<ICommand> Commands { get; private set; }
-        public static string WorkStatus { get; set; }
+        public static bool WorkStatus { get; set; }
 
-        public const string ACTIVE = "ACTIVE";
-        public const string DISABLE = "DISABLE";
+        public const bool ACTIVE = true;
+        public const bool DISABLE = false;
+        private const int COMMAND_NAME = 0;
 
         public static void Start()
         {
             WorkStatus = ACTIVE;
+            InitConfig();
             InitCommands();
             StartGettingCommands();
         }
@@ -25,6 +30,12 @@ namespace ConsoleUI
 
             Commands.Add(new HelpCommand());
             Commands.Add(new OutCommand());
+            Commands.Add(new SetMainDirCommand());
+            Commands.Add(new NewVariantCommand());
+            Commands.Add(new RunScriptCommand());
+            Commands.Add(new ChangeVariantCommand());
+            Commands.Add(new GetInfoCommand());
+            Commands.Add(new GetVariantsListCommand());
             // add new commands here
         }
 
@@ -32,35 +43,70 @@ namespace ConsoleUI
         {
             while (WorkStatus == ACTIVE)
             {
-                string commandEntered = GetCommand();
+                string[] receivedCommand = GetCommand();
+
                 bool commandIsFound = false;
 
                 foreach (var command in Commands)
-                    if (commandEntered == command.Name)
+                    if (receivedCommand[COMMAND_NAME] == command.Name)
                     {
                         commandIsFound = true;
-                        command.Execute();
+                        command.Execute(receivedCommand);
                     }
 
                 if (!commandIsFound)
-                    Console.WriteLine("COMMAND NOT FOUND!");
+                    PrintErrorMessage("COMMAND NOT FOUND!");
             }
         }
 
-        private static string GetCommand()
+        private static void InitConfig() 
         {
-            Console.Write(">>> ");
-            string command = Console.ReadLine();
+            try
+            {
+                // if root dir not found then create this and config file
+                DirectoryInfo dirInfo = new DirectoryInfo("C:\\eie");
+                if (!dirInfo.Exists)
+                {
+                    dirInfo.Create();
 
-            return command;
+                    ConfigFile config = new ConfigFile();
+                    config.MainDir = "C:\\eie";
+                    config.Save();
+
+                    PrintWarningMessage("Main dir is 'C:\\eie', you can change it - just enter 'smd [path]'");
+                }
+            }
+            catch (Exception e)
+            {
+                PrintErrorMessage("ERROR: " + e.Message);
+            }
         }
 
-        public static string GetData(string dataType)
+        private static string[] GetCommand()
         {
-            Console.Write(dataType.ToUpper() + ": ");
-            string data = Console.ReadLine();
+            Console.Write(">>> ");
+            return Console.ReadLine().Split(' ');
+        }
 
-            return data;
+        public static void PrintSuccessMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\n" + message + "\n");
+            Console.ResetColor();
+        }
+
+        public static void PrintWarningMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\n" + message + "\n");
+            Console.ResetColor();
+        }
+
+        public static void PrintErrorMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\n" + message + "\n");
+            Console.ResetColor();
         }
     }
 }

@@ -8,10 +8,10 @@
         public OutCommand()
         {
             Name = "out";
-            Description = "close application";
+            Description = ": close application";
         }
 
-        public void Execute()
+        public void Execute(string[] args)
         {
             Shell.WorkStatus = Shell.DISABLE;
         }

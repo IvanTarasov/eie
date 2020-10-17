@@ -10,15 +10,18 @@ namespace ConsoleUI.Commands
         public HelpCommand()
         {
             Name = "help";
-            Description = "lists available commands";
+            Description = ": lists available commands";
         }
 
-        public void Execute()
+        public void Execute(string[] args)
         {
+            Console.BackgroundColor = ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.Black;
             foreach (var command in Shell.Commands)
             {
                 Console.WriteLine(command.GetInfo());
             }
+            Console.ResetColor();
         }
     }
 }

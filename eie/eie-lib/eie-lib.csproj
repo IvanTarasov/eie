@@ -5,4 +5,8 @@
     <RootNamespace>eie_lib</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="IronPython" Version="2.7.10" />
+  </ItemGroup>
+
 </Project>

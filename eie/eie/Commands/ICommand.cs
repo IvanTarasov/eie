@@ -6,10 +6,10 @@
 
         string Description { get; }
 
-        void Execute();
+        void Execute(string[] args);
 
         string GetInfo() {
-            return Name + ": " + Description;
-        } 
+            return Name + " " + Description;
+        }
     }
 }
