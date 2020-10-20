@@ -19,7 +19,9 @@ namespace ConsoleUI
         public static void Start()
         {
             WorkStatus = ACTIVE;
-            InitConfig();
+
+            PrintWarningMessage("Type 'help' to get a list of available commands");
+            AppInfo.InitConfig();
             InitCommands();
             StartGettingCommands();
         }
@@ -30,12 +32,14 @@ namespace ConsoleUI
 
             Commands.Add(new HelpCommand());
             Commands.Add(new OutCommand());
-            Commands.Add(new SetMainDirCommand());
-            Commands.Add(new NewVariantCommand());
-            Commands.Add(new RunScriptCommand());
-            Commands.Add(new ChangeVariantCommand());
             Commands.Add(new GetInfoCommand());
+            Commands.Add(new NewVariantCommand());
+            Commands.Add(new ChangeVariantCommand());
+            Commands.Add(new OpenScriptCommand());
+            Commands.Add(new RunScriptCommand());
             Commands.Add(new GetVariantsListCommand());
+            Commands.Add(new SetMainDirCommand());
+            Commands.Add(new ChangeEditorCommand());
             // add new commands here
         }
 
@@ -59,33 +63,10 @@ namespace ConsoleUI
             }
         }
 
-        private static void InitConfig() 
-        {
-            try
-            {
-                // if root dir not found then create this and config file
-                DirectoryInfo dirInfo = new DirectoryInfo("C:\\eie");
-                if (!dirInfo.Exists)
-                {
-                    dirInfo.Create();
-
-                    ConfigFile config = new ConfigFile();
-                    config.MainDir = "C:\\eie";
-                    config.Save();
-
-                    PrintWarningMessage("Main dir is 'C:\\eie', you can change it - just enter 'smd [path]'");
-                }
-            }
-            catch (Exception e)
-            {
-                PrintErrorMessage("ERROR: " + e.Message);
-            }
-        }
-
         private static string[] GetCommand()
         {
             Console.Write(">>> ");
-            return Console.ReadLine().Split(' ');
+            return Console.ReadLine().Split(' ', 2);
         }
 
         public static void PrintSuccessMessage(string message)

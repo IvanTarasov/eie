@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using ConsoleUI;
+using System;
+using System.IO;
 using System.Text.Json;
 
 namespace eie.App
@@ -7,13 +9,46 @@ namespace eie.App
     {
         public static string OpenedVariant { get; private set; }
 
+        public static void InitConfig()
+        {
+            try
+            {
+                // if root dir not found then create this and config file
+                DirectoryInfo dirInfo = new DirectoryInfo("C:\\eie");
+                if (!dirInfo.Exists)
+                {
+                    dirInfo.Create();
+
+                    ConfigFile config = new ConfigFile();
+                    config.MainDir = "C:\\eie";
+                    config.EditorPath = "C:\\Windows\\System32\\notepad.exe";
+                    config.Save();
+
+                    Shell.PrintWarningMessage("Main dir is 'C:\\eie', you can change it - just enter 'smd [path]'");
+                }
+            }
+            catch (Exception e)
+            {
+                Shell.PrintErrorMessage("ERROR: " + e.Message);
+            }
+        }
+
+        public static string GetEditorPath()
+        {
+            using (StreamReader sr = new StreamReader("C:\\eie\\config.txt"))
+            {
+                ConfigFile config = JsonSerializer.Deserialize<ConfigFile>(sr.ReadLine());
+                return config.EditorPath;
+            }
+        }
+
         public static string GetMainDir()
         {
-                using (StreamReader sr = new StreamReader("C:\\eie\\config.txt"))
-                {
-                    ConfigFile config = JsonSerializer.Deserialize<ConfigFile>(sr.ReadLine());
-                    return config.MainDir;
-                }
+            using (StreamReader sr = new StreamReader("C:\\eie\\config.txt"))
+            {
+                ConfigFile config = JsonSerializer.Deserialize<ConfigFile>(sr.ReadLine());
+                return config.MainDir;
+            }
         }
 
         public static void ChangeVariant(string varName)

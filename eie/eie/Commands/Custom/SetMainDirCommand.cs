@@ -37,6 +37,7 @@ namespace eie.Commands.Custom
                 // create config file
                 ConfigFile config = new ConfigFile();
                 config.MainDir = pathToDir + "\\eie";
+                config.EditorPath = AppInfo.GetEditorPath();
                 config.Save();
 
                 Shell.PrintSuccessMessage("Now main directory is '" + pathToDir + "\\eie'");

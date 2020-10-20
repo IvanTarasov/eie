@@ -6,6 +6,8 @@ namespace eie.App
     class ConfigFile
     {
         public string MainDir { get; set; }
+        public string EditorPath { get; set; }
+
         public void Save()
         {
             string config = JsonSerializer.Serialize((ConfigFile)MemberwiseClone());
