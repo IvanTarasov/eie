@@ -14,10 +14,10 @@ namespace eie.App
             try
             {
                 // if root dir not found then create this and config file
-                DirectoryInfo dirInfo = new DirectoryInfo("C:\\eie");
-                if (!dirInfo.Exists)
+                DirectoryInfo rootDirInfo = new DirectoryInfo("C:\\eie");
+                if (!rootDirInfo.Exists)
                 {
-                    dirInfo.Create();
+                    rootDirInfo.Create();
 
                     ConfigFile config = new ConfigFile();
                     config.MainDir = "C:\\eie";
@@ -25,6 +25,12 @@ namespace eie.App
                     config.Save();
 
                     Shell.PrintWarningMessage("Main dir is 'C:\\eie', you can change it - just enter 'smd [path]'");
+                }
+
+                DirectoryInfo mainDirInfo = new DirectoryInfo(GetMainDir());
+                if (!mainDirInfo.Exists)
+                {
+                    mainDirInfo.Create();
                 }
             }
             catch (Exception e)

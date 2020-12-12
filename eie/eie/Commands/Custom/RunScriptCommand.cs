@@ -29,12 +29,12 @@ namespace eie.Commands.Custom
 
             if (AppInfo.OpenedVariant != null)
             {
-                string task = args[1];
-                string path = AppInfo.GetMainDir() + "\\" + AppInfo.OpenedVariant + "\\" + task + "\\" + task + ".py";
-                
-                Shell.PrintWarningMessage("[" + path +"]");
                 try
                 {
+                    string task = args[1];
+                    string path = AppInfo.GetMainDir() + "\\" + AppInfo.OpenedVariant + "\\" + task + "\\" + task + ".py";
+
+                    Shell.PrintWarningMessage("[" + path + "]");
                     Engine.ExecuteFile(path);
                     Shell.PrintSuccessMessage("Script '" + task + "' successfully completed!");
                 }
@@ -47,8 +47,7 @@ namespace eie.Commands.Custom
             else
             {
                 Shell.PrintErrorMessage("Select variant!");
-            }
-            
+            }  
         }
     }
 }

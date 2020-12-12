@@ -25,10 +25,18 @@ namespace eie.Commands.Custom
             }
             string varName = args[1];
 
-            string mainDir = AppInfo.GetMainDir();
-            InitTasks(mainDir + "\\" + varName);
-            
-            Shell.PrintSuccessMessage("Variant '" + varName + "' was added!");
+            try
+            {
+                string mainDir = AppInfo.GetMainDir();
+                InitTasks(mainDir + "\\" + varName);
+
+                Shell.PrintSuccessMessage("Variant '" + varName + "' was added!");
+            }
+            catch (System.Exception e)
+            {
+                Shell.PrintErrorMessage("ERROR: " + e.Message);
+            }
+
         }
 
         private void InitTasks(string currentDir)

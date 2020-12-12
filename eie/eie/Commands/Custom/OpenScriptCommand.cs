@@ -26,9 +26,9 @@ namespace eie.Commands.Custom
             if (AppInfo.OpenedVariant != null)
             {
                 string task = args[1];
-                string path = AppInfo.GetMainDir() + "\\" + AppInfo.OpenedVariant + "\\" + task + "\\" + task + ".py";
                 try
                 {
+                    string path = AppInfo.GetMainDir() + "\\" + AppInfo.OpenedVariant + "\\" + task + "\\" + task + ".py";
                     System.Diagnostics.Process.Start(AppInfo.GetEditorPath(), path);
                 }
                 catch (Exception e)

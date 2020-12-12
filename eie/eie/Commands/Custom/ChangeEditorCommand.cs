@@ -11,15 +11,15 @@ namespace eie.Commands.Custom
 
         public ChangeEditorCommand()
         {
-            Name = "neditor";
-            Description = "['fullpath_to_editor']: change custom code-editor";
+            Name = "newedit";
+            Description = "[fullpath_to_editor]: change custom code-editor";
         }
 
         public void Execute(string[] args)
         {
             if (args.Length < 2)
             {
-                Shell.PrintErrorMessage("Argument don't recieved!");
+                Shell.PrintErrorMessage("Path to editor don't recieved!");
                 return;
             }
 
@@ -31,7 +31,7 @@ namespace eie.Commands.Custom
                 config.EditorPath = path;
                 config.Save();
 
-                Shell.PrintSuccessMessage("New editor is '" + path + "'!");
+                Shell.PrintSuccessMessage("New editor in '" + path + "'!");
             }
             catch (Exception e)
             {

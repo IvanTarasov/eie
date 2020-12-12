@@ -1,5 +1,6 @@
 ﻿using ConsoleUI;
 using eie.App;
+using System;
 using System.IO;
 
 namespace eie.Commands.Custom
@@ -19,20 +20,24 @@ namespace eie.Commands.Custom
         {
             if (args.Length < 2)
             {
-                Shell.PrintErrorMessage("Argument don't recieved!");
+                Shell.PrintErrorMessage("Variant name don't recieved!");
                 return;
             }
 
             string varName = args[1];
-            DirectoryInfo variant = new DirectoryInfo(AppInfo.GetMainDir() + "\\" + varName);
-            if (variant.Exists)
+            try
             {
-                AppInfo.ChangeVariant(varName);
-                Shell.PrintSuccessMessage("Variant '" + varName + "' is currently used");
+                DirectoryInfo variant = new DirectoryInfo(AppInfo.GetMainDir() + "\\" + varName);
+                if (variant.Exists)
+                {
+                    AppInfo.ChangeVariant(varName);
+                    Shell.PrintSuccessMessage("Variant '" + varName + "' is currently used");
+                }
+                else Shell.PrintErrorMessage("Variant '" + varName + "' does not exist");
             }
-            else
+            catch (Exception e)
             {
-                Shell.PrintErrorMessage("Variant '" + varName + "' does not exist");
+                Shell.PrintErrorMessage("ERROR: " + e.Message);
             }
         }
     }

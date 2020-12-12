@@ -20,7 +20,7 @@ namespace eie.Commands.Custom
         {
             if (args.Length < 2)
             {
-                Shell.PrintErrorMessage("Argument don't recieved!");
+                Shell.PrintErrorMessage("Path to dir don't recieved!");
                 return;
             }
 

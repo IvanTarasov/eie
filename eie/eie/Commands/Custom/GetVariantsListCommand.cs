@@ -18,13 +18,19 @@ namespace eie.Commands.Custom
 
         public void Execute(string[] args)
         {
-            string path = AppInfo.GetMainDir();
-            DirectoryInfo dirInfo = new DirectoryInfo(path);
-            var vars = dirInfo.GetDirectories();
-            foreach (var variant in vars)
+            try
             {
-                Console.WriteLine(variant.Name);
+                string path = AppInfo.GetMainDir();
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+                var vars = dirInfo.GetDirectories();
+                foreach (var variant in vars)
+                    Console.WriteLine(variant.Name);
             }
+            catch (Exception e)
+            {
+                Shell.PrintErrorMessage("ERROR: " + e.Message);
+            }
+            
         }
     }
 }

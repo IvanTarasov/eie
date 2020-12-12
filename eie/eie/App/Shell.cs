@@ -3,7 +3,6 @@ using eie.App;
 using eie.Commands.Custom;
 using System;
 using System.Collections.Generic;
-using System.IO;
 
 namespace ConsoleUI
 {
@@ -19,10 +18,11 @@ namespace ConsoleUI
         public static void Start()
         {
             WorkStatus = ACTIVE;
+            AppInfo.InitConfig();
+
+            InitCommands();
 
             PrintWarningMessage("Type 'help' to get a list of available commands");
-            AppInfo.InitConfig();
-            InitCommands();
             StartGettingCommands();
         }
 

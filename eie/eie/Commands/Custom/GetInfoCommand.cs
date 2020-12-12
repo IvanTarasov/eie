@@ -18,16 +18,22 @@ namespace eie.Commands.Custom
 
         public void Execute(string[] args)
         {
-            Console.WriteLine("Main directory: " + AppInfo.GetMainDir());
-            Console.WriteLine("Opened variant: " + AppInfo.OpenedVariant);
-            Console.WriteLine("Number of variants: " + GetNumberOfVariants());
+            try
+            {
+                Console.WriteLine("Main directory: " + AppInfo.GetMainDir());
+                Console.WriteLine("Opened variant: " + AppInfo.OpenedVariant);
+                Console.WriteLine("Number of variants: " + GetNumberOfVariants());
+            }
+            catch (Exception e)
+            {
+                Shell.PrintErrorMessage("ERROR: " + e.Message);
+            }
         }
 
         private int GetNumberOfVariants()
         {
             DirectoryInfo dirInfo = new DirectoryInfo(AppInfo.GetMainDir());
-            var variants = dirInfo.GetDirectories();
-            return variants.Length;
+            return dirInfo.GetDirectories().Length;
         }
     }
 }
